@@ -1,15 +1,23 @@
 {
-  "name": "hardhat-project",
-  "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.2",
-    "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "chai": "^4.3.4",
-    "ethereum-waffle": "^3.4.0",
-    "ethers": "^5.3.1",
-    "hardhat": "^2.4.1"
+  "name": "waffle",
+  "version": "1.0.0",
+  "description": "Waffle v1.2 is a multi NFT raffles inspired by [Jon Itzler](https://twitter.com/jonitzler/status/1408472539182120967) & Anish's Waffle",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
   },
-  "dependencies": {
-    "@chainlink/contracts": "^0.1.9",
-    "@openzeppelin/contracts": "^4.1.0"
-  }
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhargavaparoksham/waffle.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bhargavaparoksham/waffle/issues"
+  },
+  "homepage": "https://github.com/bhargavaparoksham/waffle#readme"
 }
