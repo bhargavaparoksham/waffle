@@ -6,8 +6,8 @@ pragma solidity ^0.8.0;
 
 // ============ Imports ============
 
-import "./Interfaces/IERC721.sol";
-import "./Interfaces/IERC721Receiver.sol";
+import "./Openzeppelin-Interfaces/IERC721.sol";
+import "./Openzeppelin-Interfaces/IERC721Receiver.sol";
 import "./chainlink/VRFConsumerBase.sol";
 
 contract Waffle is VRFConsumerBase, IERC721Receiver {
@@ -16,20 +16,22 @@ contract Waffle is VRFConsumerBase, IERC721Receiver {
   // Chainlink keyHash
   bytes32 internal immutable keyHash;
   // Chainlink fee
-  uint256 internal immutable fee;
+  uint256 internal immutable fee; 
   // NFT owner
   address public immutable owner;
   // Price (in Ether) per raffle slot
   uint256 public immutable slotPrice;
   // Number of total available raffle slots
   uint256 public immutable numSlotsAvailable;
-  // Address of NFT contract
-  address public immutable nftContract;
-  // NFT ID
-  uint256 public immutable nftID;
+  //No of NFTs
+  uint256 public immutable nftCount;
 
   // ============ Mutable storage ============
 
+  // Addresses of NFT contracts
+  address[] public nftContract;
+  // NFT ID's
+  uint256[] public nftID;
   // Result from Chainlink VRF
   uint256 public randomResult = 0;
   // Toggled when contract requests result from Chainlink VRF
@@ -40,8 +42,8 @@ contract Waffle is VRFConsumerBase, IERC721Receiver {
   address[] public slotOwners;
   // Mapping of slot owners to number of slots owned
   mapping(address => uint256) public addressToSlotsOwned;
-  // Toggled when contract holds NFT to raffle
-  bool public nftOwned = false;
+  // No of NFT's available in the contract to raffle
+  uint256 public nftOwned = 0;
 
   // ============ Events ============
 
@@ -56,12 +58,10 @@ contract Waffle is VRFConsumerBase, IERC721Receiver {
 
   constructor(
     address _owner,
-    address _nftContract,
     address _ChainlinkVRFCoordinator,
     address _ChainlinkLINKToken,
     bytes32 _ChainlinkKeyHash,
     uint256 _ChainlinkFee,
-    uint256 _nftID,
     uint256 _slotPrice, 
     uint256 _numSlotsAvailable
   ) VRFConsumerBase(
@@ -234,7 +234,7 @@ contract Waffle is VRFConsumerBase, IERC721Receiver {
   }
 
   /**
-   * Receive NFT to raffle
+   * Receive NFT's to raffle
    */
   function onERC721Received(
     address operator,
@@ -242,15 +242,18 @@ contract Waffle is VRFConsumerBase, IERC721Receiver {
     uint256 tokenId,
     bytes calldata data
   ) external override returns (bytes4) {
-    // Require NFT from correct contract
-    require(from == nftContract, "Waffle: Raffle not initiated with this NFT contract.");
-    // Require correct NFT ID
-    require(tokenId == nftID, "Waffle: Raffle not initiated with this NFT ID.");
 
-    // Toggle contract NFT ownership
-    nftOwned = true;
+    //NFT Contract added to the list
+    nftContract[nftOwned] = from;
+
+    //NFT ID added to the list
+    nftID[nftOwned] = tokenId;
+
+    // Increment no of NFT's available in the contract to raffle
+    nftOwned++;
 
     // Return required successful interface bytes
     return 0x150b7a02;
   }
-}
+
+

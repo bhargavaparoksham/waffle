@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/bhargavaparoksham/waffle/issues"
   },
-  "homepage": "https://github.com/bhargavaparoksham/waffle#readme"
+  "homepage": "https://github.com/bhargavaparoksham/waffle#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0"
+  }
 }

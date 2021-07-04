@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 // ============ Imports ============
 
 import "./Waffle.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "./Openzeppelin-Interfaces/IERC20.sol";
 
 contract WaffleFactory {
   // ============ Immutable storage ============
@@ -25,8 +25,7 @@ contract WaffleFactory {
   event WaffleCreated(
     address indexed waffle,
     address indexed owner,
-    address indexed nftContract,
-    uint256 nftID,
+    uint256 nftCount,
     uint256 slotPrice,
     uint256 numSlotsAvailable
   );
@@ -48,8 +47,7 @@ contract WaffleFactory {
 
   // ============ Functions ============
   function createWaffle(
-    address _nftContract,
-    uint256 _nftID,
+    uint256 _nftCount,
     uint256 _slotPrice,
     uint256 _numSlotsAvailable
   ) external {
@@ -64,12 +62,11 @@ contract WaffleFactory {
 
     Waffle raffle = new Waffle(
       msg.sender,
-      _nftContract,
       ChainlinkVRFCoordinator,
       ChainlinkLINKToken,
       ChainlinkKeyHash,
       ChainlinkFee,
-      _nftID,
+      _nftCount,
       _slotPrice,
       _numSlotsAvailable
     );
@@ -78,6 +75,6 @@ contract WaffleFactory {
     LINKToken.transferFrom(msg.sender, address(raffle), ChainlinkFee);
 
     // Emit creation event
-    emit WaffleCreated(address(raffle), msg.sender, _nftContract, _nftID, _slotPrice, _numSlotsAvailable);
+    emit WaffleCreated(address(raffle), msg.sender, _nftCount, _slotPrice, _numSlotsAvailable);
   }
 }
