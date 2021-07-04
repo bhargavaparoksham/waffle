@@ -6,9 +6,9 @@ pragma solidity ^0.8.0;
 
 // ============ Imports ============
 
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "@chainlink/contracts/src/v0.8/dev/VRFConsumerBase.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+import "./Interfaces/IERC721.sol";
+import "./Interfaces/IERC721Receiver.sol";
+import "./chainlink/VRFConsumerBase.sol";
 
 contract Waffle is VRFConsumerBase, IERC721Receiver {
   // ============ Immutable storage ============
