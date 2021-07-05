@@ -2,6 +2,8 @@
 
 Waffle v1.2 is a multi NFT raffles inspired by [Jon Itzler](https://twitter.com/jonitzler/status/1408472539182120967) & Anish's Waffle
 
+In v1.2 multiple NFTs can be raffled together in a single raffle.
+
 1. NFT Owners can specify the number of NFTs, number of available raffle slots, and price per slot.
 2. Entrants can deposit and withdraw until all slots are filled.
 3. Owners can raffle the NFTs and select winners at any point (slots filled or not).
