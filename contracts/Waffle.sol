@@ -194,10 +194,10 @@ contract Waffle is VRFConsumerBase, IERC721Receiver {
     
     while (nftOwned > 0) {
       // Find winner of NFT
-      address winner = slotOwners[randomResult[randomResultRequested] % numSlotsFilled];
+      address winner = slotOwners[randomResult[randomResultRequested-1] % numSlotsFilled];
 
       // Transfer NFT to winner
-      IERC721(nftContract[nftOwned]).safeTransferFrom(address(this), winner, nftID[nftOwned]);
+      IERC721(nftContract[nftOwned-1]).safeTransferFrom(address(this), winner, nftID[nftOwned-1]);
 
       // Decrement nftOwned
       nftOwned--;
@@ -229,7 +229,7 @@ contract Waffle is VRFConsumerBase, IERC721Receiver {
 
     while (nftOwned > 0) {
       // Transfer NFT to original owner
-      IERC721(nftContract[nftOwned]).safeTransferFrom(address(this), msg.sender, nftID[nftOwned]);
+      IERC721(nftContract[nftOwned-1]).safeTransferFrom(address(this), msg.sender, nftID[nftOwned-1]);
 
       // Decrement nftOwned
       nftOwned--;
