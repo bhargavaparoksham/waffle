@@ -17,7 +17,7 @@ contract Waffle is VRFConsumerBase, IERC721Receiver {
   bytes32 internal immutable keyHash;
   // Chainlink fee
   uint256 internal immutable fee; 
-  // NFT owner
+  // Owner of the NFTs
   address public immutable owner;
   // Price (in Ether) per raffle slot
   uint256 public immutable slotPrice;
@@ -90,7 +90,7 @@ contract Waffle is VRFConsumerBase, IERC721Receiver {
     // Require there to be available raffle slots
     require(numSlotsFilled < numSlotsAvailable, "Waffle: All raffle slots are filled.");
     // Prevent claiming after winner selection
-    require(randomResultRequested == 0, "Waffle: Cannot purchase slot after winner has been chosen.");
+    require(randomResultRequested == 0, "Waffle: Cannot purchase slot after winners have been chosen.");
     // Require appropriate payment for number of slots to purchase
     require(msg.value == _numSlots * slotPrice, "Waffle: Insufficient ETH provided to purchase slots.");
     // Require number of slots to purchase to be <= number of available slots
@@ -120,7 +120,7 @@ contract Waffle is VRFConsumerBase, IERC721Receiver {
     // Require the raffle contract to own the NFT to raffle
     require(nftOwned == nftCount, "Waffle: Contract does not own raffleable NFT/NFTs.");
     // Prevent refunding after winner selection
-    require(randomResultRequested == 0, "Waffle: Cannot refund slot after winner has been chosen.");
+    require(randomResultRequested == 0, "Waffle: Cannot refund slot after winners have been chosen.");
     // Require number of slots owned by address to be >= _numSlots requested for refund
     require(addressToSlotsOwned[msg.sender] >= _numSlots, "Waffle: Address does not own number of requested slots.");
 
@@ -154,7 +154,7 @@ contract Waffle is VRFConsumerBase, IERC721Receiver {
   }
 
   /**
-   * Collects randomness from Chainlink VRF to propose a winner.
+   * Collects randomness from Chainlink VRF to propose winners.
    */
   function collectRandomWinner() external returns (bytes32 requestId) {
     // Require at least 1 raffle slot to be filled
@@ -171,7 +171,7 @@ contract Waffle is VRFConsumerBase, IERC721Receiver {
   }
 
   /**
-   * Collects random number from Chainlink VRF
+   * Collects random numbers from Chainlink VRF
    */
   function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
     // Store random number as randomResult
@@ -182,7 +182,7 @@ contract Waffle is VRFConsumerBase, IERC721Receiver {
   }
 
   /**
-   * Disburses NFT to winner and raised raffle pool to owner
+   * Disburses NFT to winners and raised raffle pool to owner
    */
   function disburseWinner() external {
     // Require that the contract holds the NFTs
